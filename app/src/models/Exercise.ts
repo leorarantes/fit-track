@@ -3,10 +3,19 @@ import {getDB} from './db';
 export interface Exercise {
   id?: number;
   name: string;
-  muscle_group: 'biceps' | 'quadriceps';
+  muscle_group: 'arms' | 'back' | 'chest' | 'legs' | 'shoulders' | 'core';
   observations?: string;
   favorite: boolean;
 }
+
+export const portuguesMuscleGroup: Record<Exercise['muscle_group'], string> = {
+  arms: 'Braços',
+  back: 'Costas',
+  chest: 'Peito',
+  legs: 'Pernas',
+  shoulders: 'Ombros',
+  core: 'Abdômen',
+};
 
 export const getAllExercises = async (): Promise<Exercise[]> => {
   const db = await getDB();
@@ -28,11 +37,16 @@ export const getAllExercises = async (): Promise<Exercise[]> => {
 export const addExercise = async (exercise: Exercise): Promise<number> => {
   const db = await getDB();
   const {name, muscle_group, observations, favorite} = exercise;
-  const [result] = await db.executeSql(
-    'INSERT INTO exercise (name, muscle_group, observations, favorite) VALUES (?, ?, ?, ?);',
-    [name, muscle_group, observations || '', favorite ? 1 : 0],
-  );
-  return result.insertId!;
+  try {
+    const [result] = await db.executeSql(
+      'INSERT INTO exercise (name, muscle_group, observations, favorite) VALUES (?, ?, ?, ?);',
+      [name, muscle_group, observations || '', favorite ? 1 : 0],
+    );
+    return result.insertId!;
+  } catch (error) {
+    console.error('Error adding exercise:', error);
+    throw error;
+  }
 };
 
 export const updateExercise = async (exercise: Exercise): Promise<void> => {
