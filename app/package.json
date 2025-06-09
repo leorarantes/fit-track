@@ -6,11 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
-    "start": "react-native start",
-    "build:ios": "detox build --configuration ios.sim.debug",
-    "test:ios": "detox test --configuration ios.sim.debug",
-    "build:android": "detox build --configuration android.emu.debug",
-    "test:android": "detox test --configuration android.emu.debug"
+    "start": "react-native start"
   },
   "dependencies": {
     "@react-native-community/checkbox": "^0.5.20",
