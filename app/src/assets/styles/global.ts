@@ -85,3 +85,79 @@ export const plusStyles = function (width: number): any {
     lineHeight: 36,
   };
 }
+
+export const modalStyles = {
+  backdrop: (): any => ({
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }),
+
+  modal: (): any => ({
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 10,
+    width: '90%',
+  }),
+
+  header: (width: number): any => ({
+    fontSize: screenTitleFontSize(width),
+    marginBottom: 20,
+    color: '#E67E22',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  }),
+
+  input: (): any => ({
+    borderWidth: 1,
+    borderColor: '#DDD',
+    padding: 8,
+    borderRadius: 5,
+    marginVertical: 8,
+  }),
+
+  row: (): any => ({
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginVertical: 8,
+  }),
+
+  button: (width: number): any => ({
+    width: '45%',
+    marginVertical: 4,
+    paddingVertical: 10,
+    borderRadius: 5,
+    backgroundColor: '#E67E22',
+    alignItems: 'center',
+  }),
+
+  selectedButton: (): any => ({
+    backgroundColor: '#D35400',
+  }),
+
+  buttonText: (): any => ({
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+  }),
+
+  saveButton: (): any => ({
+    flex: 1,
+    marginHorizontal: 5,
+    paddingVertical: 10,
+    borderRadius: 5,
+    backgroundColor: '#E67E22',
+    alignItems: 'center',
+  }),
+
+  cancelButton: (): any => ({
+    flex: 1,
+    marginHorizontal: 5,
+    paddingVertical: 10,
+    borderRadius: 5,
+    backgroundColor: '#999',
+    alignItems: 'center',
+  }),
+};

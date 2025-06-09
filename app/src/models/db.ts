@@ -23,6 +23,15 @@ export const getDB = async (): Promise<SQLiteDatabase> => {
           favorite INTEGER NOT NULL DEFAULT 0
         );`,
       );
+      await dbInstance.executeSql(
+        `CREATE TABLE IF NOT EXISTS training_session (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          date DATE NOT NULL,
+          type TEXT CHECK(type IN ('hypertrophy', 'strength', 'resistance')) NOT NULL,
+          observations TEXT
+        );`,
+      );
       return dbInstance;
   } catch(error) {
     console.error('Error opening database:', error);
