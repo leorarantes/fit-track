@@ -58,3 +58,13 @@ export const updateExercise = async (exercise: Exercise): Promise<void> => {
     [name, muscle_group, observations || '', favorite ? 1 : 0, id],
   );
 };
+
+export const deleteExercise = async (id: number): Promise<void> => {
+  const db = await getDB();
+  try {
+    await db.executeSql('DELETE FROM exercise WHERE id = ?;', [id]);
+  } catch (error) {
+    console.error('Error deleting exercise:', error);
+    throw error;
+  }
+};

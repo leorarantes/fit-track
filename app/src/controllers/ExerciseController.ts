@@ -14,3 +14,7 @@ export const editExercise = async (ex: Exercise): Promise<Exercise> => {
   await model.updateExercise(ex);
   return ex;
 };
+
+export const deleteExercise = async (id: number): Promise<void> => {
+  await model.deleteExercise(id);
+};
