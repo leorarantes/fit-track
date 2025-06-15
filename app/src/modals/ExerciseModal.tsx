@@ -10,6 +10,7 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   exercise: Exercise | null;
+  testID?: string;
 }
 
 export default function ExerciseModal({ visible, onClose, exercise }: Props) {
@@ -47,48 +48,48 @@ export default function ExerciseModal({ visible, onClose, exercise }: Props) {
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide">
-      <View style={styles.backdrop}>
-        <View style={styles.modal}>
-          <Text style={styles.header}>{isEdit ? 'Editar' : 'Novo'} Exercício</Text>
-          <Text>Nome: </Text>
-          <TextInput value={name} onChangeText={setName} style={styles.input} />
-          <Text>Grupo Muscular: </Text>
-          <View style={styles.row}>
-            <TouchableOpacity style={[styles.button, muscle === 'arms' && styles.selectedButton]} onPress={() => setMuscle('arms')}>
+    <Modal visible={visible} transparent animationType="slide" testID="exerciseModal">
+      <View style={styles.backdrop} testID="modalBackdrop">
+        <View style={styles.modal} testID="modalContent">
+          <Text style={styles.header} testID="modalHeader">{isEdit ? 'Editar' : 'Novo'} Exercício</Text>
+          <Text testID="nameLabel">Nome: </Text>
+          <TextInput value={name} onChangeText={setName} style={styles.input} testID="nameInput" />
+          <Text testID="muscleGroupLabel">Grupo Muscular: </Text>
+          <View style={styles.row} testID="muscleGroupButtons">
+            <TouchableOpacity style={[styles.button, muscle === 'arms' && styles.selectedButton]} onPress={() => setMuscle('arms')} testID="muscleButton-arms">
               <Text style={styles.buttonText}>Braços</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, muscle === 'back' && styles.selectedButton]} onPress={() => setMuscle('back')}>
+            <TouchableOpacity style={[styles.button, muscle === 'back' && styles.selectedButton]} onPress={() => setMuscle('back')} testID="muscleButton-back">
               <Text style={styles.buttonText}>Costas</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, muscle === 'chest' && styles.selectedButton]} onPress={() => setMuscle('chest')}>
+            <TouchableOpacity style={[styles.button, muscle === 'chest' && styles.selectedButton]} onPress={() => setMuscle('chest')} testID="muscleButton-chest">
               <Text style={styles.buttonText}>Peito</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, muscle === 'legs' && styles.selectedButton]} onPress={() => setMuscle('legs')}>
+            <TouchableOpacity style={[styles.button, muscle === 'legs' && styles.selectedButton]} onPress={() => setMuscle('legs')} testID="muscleButton-legs">
               <Text style={styles.buttonText}>Pernas</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, muscle === 'shoulders' && styles.selectedButton]} onPress={() => setMuscle('shoulders')}>
+            <TouchableOpacity style={[styles.button, muscle === 'shoulders' && styles.selectedButton]} onPress={() => setMuscle('shoulders')} testID="muscleButton-shoulders">
               <Text style={styles.buttonText}>Ombros</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, muscle === 'core' && styles.selectedButton]} onPress={() => setMuscle('core')}>
+            <TouchableOpacity style={[styles.button, muscle === 'core' && styles.selectedButton]} onPress={() => setMuscle('core')} testID="muscleButton-core">
               <Text style={styles.buttonText}>Abdômen</Text>
             </TouchableOpacity>
           </View>
-          <TextInput placeholder="Observações" value={obs} onChangeText={setObs} style={[styles.input, { height: 60 }]} multiline />
-          <View style={styles.row}>
-            <Text>Favorito</Text>
-            <CheckBox value={fav} onValueChange={setFav} />
+          <TextInput placeholder="Observações" value={obs} onChangeText={setObs} style={[styles.input, { height: 60 }]} multiline testID="obsInput" />
+          <View style={styles.row} testID="favoriteRow">
+            <Text testID="favoriteLabel">Favorito</Text>
+            <CheckBox value={fav} onValueChange={setFav} testID="favoriteCheckbox" />
           </View>
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.saveButton} onPress={submit}>
+          <View style={styles.row} testID="actionButtons">
+            <TouchableOpacity style={styles.saveButton} onPress={submit} testID="saveButton">
               <Text style={styles.buttonText}>{isEdit ? 'Salvar' : 'Adicionar'}</Text>
             </TouchableOpacity>
             {isEdit && (
-              <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+              <TouchableOpacity style={styles.deleteButton} onPress={handleDelete} testID="deleteButton">
                 <Text style={styles.buttonText}>Deletar</Text>
               </TouchableOpacity>
             )}
-            <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+            <TouchableOpacity style={styles.cancelButton} onPress={onClose} testID="cancelButton">
               <Text style={styles.buttonText}>Cancelar</Text>
             </TouchableOpacity>
           </View>
@@ -108,6 +109,6 @@ const styles = StyleSheet.create({
   selectedButton: modalStyles.selectedButton(),
   buttonText: modalStyles.buttonText(),
   saveButton: modalStyles.saveButton(),
-  deleteButton: { ...modalStyles.saveButton(), backgroundColor: 'red' }, // Estilo para o botão de deletar
+  deleteButton: { ...modalStyles.saveButton(), backgroundColor: 'red' },
   cancelButton: modalStyles.cancelButton(),
 });
