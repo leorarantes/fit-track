@@ -20,26 +20,42 @@ export default function ExercisesScreen() {
   useEffect(() => { load(); }, []);
 
   return (
-    <View style={styles.container}>
-      <Image source={logo} style={styles.logo} />
-      <Text style={styles.header}>Exercícios</Text>
+    <View style={styles.container} testID="exercisesScreen">
+      <Image source={logo} style={styles.logo} testID="logoImage" />
+      <Text style={styles.header} testID="headerText">Exercícios</Text>
 
       <FlatList
         data={exercises}
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.card} onPress={() => { setEditing(item); setModalVisible(true); }}>
-            <Text style={styles.cardTitle}>{item.name}</Text>
-            <Text style={styles.cardSubtitle}>{portuguesMuscleGroup[item.muscle_group]}</Text>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => { setEditing(item); setModalVisible(true); }}
+            testID={`exerciseCard-${item.id}`}
+          >
+            <Text style={styles.cardTitle} testID={`exerciseName-${item.id}`}>{item.name}</Text>
+            <Text style={styles.cardSubtitle} testID={`exerciseMuscleGroup-${item.id}`}>
+              {portuguesMuscleGroup[item.muscle_group]}
+            </Text>
           </TouchableOpacity>
         )}
+        testID="exerciseList"
       />
 
-      <TouchableOpacity style={styles.addButton} onPress={() => { setEditing(null); setModalVisible(true); }}>
-        <Text style={styles.plus}>+</Text>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => { setEditing(null); setModalVisible(true); }}
+        testID="plusButton"
+      >
+        <Text style={styles.plus} testID="plusText">+</Text>
       </TouchableOpacity>
 
-      <ExerciseModal visible={modalVisible} onClose={() => { setModalVisible(false); load(); }} exercise={editing} />
+      <ExerciseModal
+        visible={modalVisible}
+        onClose={() => { setModalVisible(false); load(); }}
+        exercise={editing}
+        testID="exerciseModal"
+      />
     </View>
   );
 }
