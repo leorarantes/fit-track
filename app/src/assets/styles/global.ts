@@ -86,6 +86,33 @@ export const plusStyles = function (width: number): any {
   };
 }
 
+export const leadTableStyles = function (width: number): any{
+  return {
+    color: '#E67E22',
+    fontSize: 18,
+    fontWeight: 'bold'
+  };
+}
+
+export const leadChartStyles = function (width: number): any{
+  return {
+    color: '#E67E22',
+    fontSize: 14,
+    fontWeight: 'thin',
+    fontStyle: 'italic',
+    textAlign: 'center',
+  };
+}
+
+export const flexJustifyBetweenStyles = function (width:number): any{
+  return {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    padding: 10
+  };
+}
+
 export const modalStyles = {
   backdrop: (): any => ({
     flex: 1,

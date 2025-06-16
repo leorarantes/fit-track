@@ -3,6 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ExercisesScreen from './src/screens/ExercisesScreen';
 import TrainingSessionScreen from './src/screens/TrainingSessionScreen';
+import TrainingHistoryScreen from './src/screens/TrainingHistoryScreen';
+import DashboardScreen from './src/screens/DashboardScreen';
+import { cardSubtitleStyles, cardTitleStyles } from './src/assets/styles/global';
+import { Dimensions, StyleSheet } from 'react-native';
+const { width, height } = Dimensions.get('window');
 
 const Tab = createBottomTabNavigator();
 
@@ -18,7 +23,7 @@ export default function App() {
             borderTopColor: 'white',
           },
           tabBarLabelStyle: { 
-            fontSize: 22, 
+            fontSize: 14, 
             color: 'white', 
             fontWeight: 'bold', 
             flex: 1, 
@@ -30,9 +35,16 @@ export default function App() {
           headerShown: false, 
         }}
       >
+        <Tab.Screen name="Início" component={DashboardScreen} />
         <Tab.Screen name="Exercícios" component={ExercisesScreen} />
         <Tab.Screen name="Treinos" component={TrainingSessionScreen} />
+        <Tab.Screen name="Histórico" component={TrainingHistoryScreen} />
+        
       </Tab.Navigator>
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  cardSubtitle: cardSubtitleStyles(width),
+});

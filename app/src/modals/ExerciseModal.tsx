@@ -5,6 +5,7 @@ import { createExercise, editExercise } from '../controllers/ExerciseController'
 import { deleteExercise, Exercise } from '../models/Exercise';
 const { width, height } = Dimensions.get('window');
 import { modalStyles } from '../assets/styles/global';
+import { useIsFocused } from '@react-navigation/native';
 
 interface Props {
   visible: boolean;
@@ -19,20 +20,24 @@ export default function ExerciseModal({ visible, onClose, exercise }: Props) {
   const [muscle, setMuscle] = useState<Exercise['muscle_group']>('arms');
   const [obs, setObs] = useState('');
   const [fav, setFav] = useState(false);
+  const isFocused = useIsFocused();
+
 
   useEffect(() => {
-    if (exercise) {
-      setName(exercise.name);
-      setMuscle(exercise.muscle_group);
-      setObs(exercise.observations || '');
-      setFav(exercise.favorite);
-    } else {
-      setName('');
-      setMuscle('arms');
-      setObs('');
-      setFav(false);
+    if (isFocused) {
+      if (exercise) {
+        setName(exercise.name);
+        setMuscle(exercise.muscle_group);
+        setObs(exercise.observations || '');
+        setFav(exercise.favorite);
+      } else {
+        setName('');
+        setMuscle('arms');
+        setObs('');
+        setFav(false);
+      }
     }
-  }, [exercise]);
+  }, [isFocused]);
 
   const submit = async () => {
     const data: Exercise = { id: exercise?.id, name, muscle_group: muscle, observations: obs, favorite: fav } as Exercise;

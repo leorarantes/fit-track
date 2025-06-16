@@ -4,6 +4,8 @@ import { createTrainingSession, editTrainingSession } from '../controllers/Train
 import { deleteTrainingSession, TrainingSession } from '../models/TrainingSession';
 const { width, height } = Dimensions.get('window');
 import { modalStyles } from '../assets/styles/global';
+import { useIsFocused } from '@react-navigation/native';
+import { TextInputMask } from 'react-native-masked-text';
 
 interface Props {
   visible: boolean;
@@ -18,20 +20,24 @@ export default function TrainingSessionModal({ visible, onClose, session }: Prop
   const [date, setDate] = useState('');
   const [type, setType] = useState<'hypertrophy' | 'strength' | 'resistance'>('hypertrophy');
   const [obs, setObs] = useState('');
+  const isFocused = useIsFocused();
+
 
   useEffect(() => {
-    if (session) {
-      setName(session.name);
-      setDate(session.date);
-      setType(session.type || 'hypertrophy');
-      setObs(session.observations || '');
-    } else {
-      setName('');
-      setDate('');
-      setType('hypertrophy');
-      setObs('');
+    if (isFocused) {
+      if (session) {
+        setName(session.name);
+        setDate(session.date);
+        setType(session.type || 'hypertrophy');
+        setObs(session.observations || '');
+      } else {
+        setName('');
+        setDate('');
+        setType('hypertrophy');
+        setObs('');
+      }
     }
-  }, [session]);
+  }, [isFocused]);
 
   const submit = async () => {
     const data: TrainingSession = { id: session?.id, name, date, type, observations: obs } as TrainingSession;
@@ -54,7 +60,7 @@ export default function TrainingSessionModal({ visible, onClose, session }: Prop
           <Text testID="nameLabel">Nome: </Text>
           <TextInput value={name} onChangeText={setName} style={styles.input} testID="nameInput" />
           <Text testID="dateLabel">Data: </Text>
-          <TextInput value={date} onChangeText={setDate} style={styles.input} placeholder="YYYY-MM-DD" testID="dateInput" />
+          <TextInputMask type={'datetime'} options={{format: 'YYYY-MM-DD'}} value={date} onChangeText={setDate} style={styles.input} placeholder="YYYY-MM-DD" testID="dateInput" />
           <Text testID="typeLabel">Tipo: </Text>
           <View style={styles.row} testID="typeButtons">
             <TouchableOpacity style={[styles.button, type === 'hypertrophy' && styles.selectedButton]} onPress={() => setType('hypertrophy')} testID="typeButton-hypertrophy">

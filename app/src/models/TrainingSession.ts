@@ -8,6 +8,7 @@ export interface TrainingSession {
   observations?: string;
 }
 
+
 export const getAllTrainingSessions = async (): Promise<TrainingSession[]> => {
   const db = await getDB();
   const [results] = await db.executeSql('SELECT * FROM training_session');
@@ -24,6 +25,31 @@ export const getAllTrainingSessions = async (): Promise<TrainingSession[]> => {
   }
   return sessions;
 };
+
+export const getAllTrainingSessionsDateFilter = async (
+  startDate: string,
+  endDate: string
+): Promise<TrainingSession[]> => {
+  const db = await getDB();
+  const [results] = await db.executeSql(
+    `SELECT * FROM training_session WHERE date BETWEEN ? AND ? ORDER BY date ASC`,
+    [startDate, endDate]
+  );
+
+  const sessions: TrainingSession[] = [];
+  for (let i = 0; i < results.rows.length; i++) {
+    const row = results.rows.item(i);
+    sessions.push({
+      id: row.id,
+      name: row.name,
+      date: row.date,
+      type: row.type,
+      observations: row.observations,
+    });
+  }
+  return sessions;
+};
+
 
 export const addTrainingSession = async (
   session: TrainingSession,
