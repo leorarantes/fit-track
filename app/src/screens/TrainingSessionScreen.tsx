@@ -20,26 +20,40 @@ export default function TrainingSessionScreen() {
   useEffect(() => { load(); }, []);
 
   return (
-    <View style={styles.container}>
-      <Image source={logo} style={styles.logo} />
-      <Text style={styles.header}>Treinos</Text>
+    <View style={styles.container} testID="trainingSessionScreen">
+      <Image source={logo} style={styles.logo} testID="logoImage" />
+      <Text style={styles.header} testID="headerText">Treinos</Text>
 
       <FlatList
         data={sessions}
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.card} onPress={() => { setEditing(item); setModalVisible(true); }}>
-            <Text style={styles.cardTitle}>{item.name}</Text>
-            <Text style={styles.cardSubtitle}>{item.date}</Text>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => { setEditing(item); setModalVisible(true); }}
+            testID={`trainingSessionCard-${item.id}`}
+          >
+            <Text style={styles.cardTitle} testID={`trainingSessionName-${item.id}`}>{item.name}</Text>
+            <Text style={styles.cardSubtitle} testID={`trainingSessionDate-${item.id}`}>{item.date}</Text>
           </TouchableOpacity>
         )}
+        testID="trainingSessionList"
       />
 
-      <TouchableOpacity style={styles.addButton} onPress={() => { setEditing(null); setModalVisible(true); }}>
-        <Text style={styles.plus}>+</Text>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => { setEditing(null); setModalVisible(true); }}
+        testID="plusButton"
+      >
+        <Text style={styles.plus} testID="plusText">+</Text>
       </TouchableOpacity>
 
-      <TrainingSessionModal visible={modalVisible} onClose={() => { setModalVisible(false); load(); }} session={editing} />
+      <TrainingSessionModal
+        visible={modalVisible}
+        onClose={() => { setModalVisible(false); load(); }}
+        session={editing}
+        testID="trainingSessionModal"
+      />
     </View>
   );
 }
