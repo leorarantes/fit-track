@@ -86,7 +86,7 @@ export const plusStyles = function (width: number): any {
   };
 }
 
-export const modalStyles = {
+export const smallModalStyles = {
   backdrop: (): any => ({
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -159,5 +159,88 @@ export const modalStyles = {
     borderRadius: 5,
     backgroundColor: '#999',
     alignItems: 'center',
+  }),
+};
+
+export const bigModalStyles = {
+  fullScreenContainer: (width: number): any => ({
+    flex: 1,
+    backgroundColor: '#FFF1E6', // Mantém o fundo da tela principal
+    padding: 16,
+    paddingBottom: 80, // Espaço semelhante ao da tela principal
+  }),
+  header: (width: number): any => ({
+    fontSize: screenTitleFontSize(width), // Usa o mesmo cálculo de tamanho de fonte
+    fontWeight: 'bold',
+    color: '#E67E22',
+    textAlign: 'center',
+    backgroundColor: '#fff',
+    padding: 10,
+    borderWidth: 2,
+    borderColor: '#E67E22',
+    borderRadius: 8,
+    marginBottom: 16,
+  }),
+  input: (): any => ({
+    width: '100%',
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 5,
+  }),
+  row: (): any => ({
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  }),
+  column: (): any => ({
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  }),
+  button: (): any => ({
+    flex: 1,
+    padding: 10,
+    marginHorizontal: 5,
+    backgroundColor: '#E67E22',
+    borderRadius: 5,
+    alignItems: 'center',
+  }),
+  selectedButton: (): any => ({
+    backgroundColor: '#D35400',
+  }),
+  buttonText: (): any => ({
+    color: 'white',
+    fontWeight: 'bold',
+  }),
+  saveButton: (): any => ({
+    flex: 1,
+    padding: 10,
+    marginHorizontal: 5,
+    backgroundColor: '#E67E22',
+    borderRadius: 5,
+    alignItems: 'center',
+  }),
+  deleteButton: (): any => ({
+    flex: 1,
+    padding: 10,
+    marginHorizontal: 5,
+    backgroundColor: 'red',
+    borderRadius: 5,
+    alignItems: 'center',
+  }),
+  cancelButton: (): any => ({
+    flex: 1,
+    padding: 10,
+    marginHorizontal: 5,
+    backgroundColor: '#95A5A6',
+    borderRadius: 5,
+    alignItems: 'center',
+  }),
+  logo: (width: number): any => ({
+    width: width * 0.5,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    marginBottom: 20,
   }),
 };

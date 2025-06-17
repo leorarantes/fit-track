@@ -1,7 +1,7 @@
 import * as model from '../models/TrainingSessionXExercise';
 import {TrainingSessionXExercise} from '../models/TrainingSessionXExercise';
 
-export const fetchTrainingSessionXExercises = async (trainingSessionId: number): Promise<TrainingSessionXExercise[]> => {
+export const fetch = async (trainingSessionId: number): Promise<TrainingSessionXExercise[]> => {
   return model.getByTrainingSessionId(trainingSessionId);
 }
 
