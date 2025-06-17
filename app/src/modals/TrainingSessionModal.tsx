@@ -9,6 +9,7 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   session: TrainingSession | null;
+  testID?: string;
 }
 
 export default function TrainingSessionModal({ visible, onClose, session }: Props) {
@@ -46,37 +47,37 @@ export default function TrainingSessionModal({ visible, onClose, session }: Prop
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide">
-      <View style={styles.backdrop}>
-        <View style={styles.modal}>
-          <Text style={styles.header}>{isEdit ? 'Editar' : 'Nova'} Sessão de Treino</Text>
-          <Text>Nome: </Text>
-          <TextInput value={name} onChangeText={setName} style={styles.input} />
-          <Text>Data: </Text>
-          <TextInput value={date} onChangeText={setDate} style={styles.input} placeholder="YYYY-MM-DD" />
-          <Text>Tipo: </Text>
-          <View style={styles.row}>
-            <TouchableOpacity style={[styles.button, type === 'hypertrophy' && styles.selectedButton]} onPress={() => setType('hypertrophy')}>
+    <Modal visible={visible} transparent animationType="slide" testID="trainingSessionModal">
+      <View style={styles.backdrop} testID="modalBackdrop">
+        <View style={styles.modal} testID="modalContent">
+          <Text style={styles.header} testID="modalHeader">{isEdit ? 'Editar' : 'Nova'} Sessão de Treino</Text>
+          <Text testID="nameLabel">Nome: </Text>
+          <TextInput value={name} onChangeText={setName} style={styles.input} testID="nameInput" />
+          <Text testID="dateLabel">Data: </Text>
+          <TextInput value={date} onChangeText={setDate} style={styles.input} placeholder="YYYY-MM-DD" testID="dateInput" />
+          <Text testID="typeLabel">Tipo: </Text>
+          <View style={styles.row} testID="typeButtons">
+            <TouchableOpacity style={[styles.button, type === 'hypertrophy' && styles.selectedButton]} onPress={() => setType('hypertrophy')} testID="typeButton-hypertrophy">
               <Text style={styles.buttonText}>Hipertrofia</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, type === 'strength' && styles.selectedButton]} onPress={() => setType('strength')}>
+            <TouchableOpacity style={[styles.button, type === 'strength' && styles.selectedButton]} onPress={() => setType('strength')} testID="typeButton-strength">
               <Text style={styles.buttonText}>Força</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, type === 'resistance' && styles.selectedButton]} onPress={() => setType('resistance')}>
+            <TouchableOpacity style={[styles.button, type === 'resistance' && styles.selectedButton]} onPress={() => setType('resistance')} testID="typeButton-resistance">
               <Text style={styles.buttonText}>Resistência</Text>
             </TouchableOpacity>
           </View>
-          <TextInput placeholder="Observações" value={obs} onChangeText={setObs} style={[styles.input, { height: 60 }]} multiline />
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.saveButton} onPress={submit}>
+          <TextInput placeholder="Observações" value={obs} onChangeText={setObs} style={[styles.input, { height: 60 }]} multiline testID="obsInput" />
+          <View style={styles.row} testID="actionButtons">
+            <TouchableOpacity style={styles.saveButton} onPress={submit} testID="saveButton">
               <Text style={styles.buttonText}>{isEdit ? 'Salvar' : 'Adicionar'}</Text>
             </TouchableOpacity>
             {isEdit && (
-              <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+              <TouchableOpacity style={styles.deleteButton} onPress={handleDelete} testID="deleteButton">
                 <Text style={styles.buttonText}>Deletar</Text>
               </TouchableOpacity>
             )}
-            <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+            <TouchableOpacity style={styles.cancelButton} onPress={onClose} testID="cancelButton">
               <Text style={styles.buttonText}>Cancelar</Text>
             </TouchableOpacity>
           </View>
