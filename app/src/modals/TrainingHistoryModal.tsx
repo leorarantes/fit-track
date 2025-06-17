@@ -3,8 +3,8 @@ import { Modal, View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions,
 import { editTrainingSession } from '../controllers/TrainingSessionController';
 import { deleteTrainingSession, getAllTrainingSessionsDateFilter } from '../models/TrainingSession';
 const { width, height } = Dimensions.get('window');
-import { cardStyles, cardSubtitleStyles, cardTitleStyles, modalStyles } from '../assets/styles/global';
-import { createTrainingHistory } from '../controllers/TrainingHistoryController';
+import { cardStyles, cardSubtitleStyles, cardTitleStyles, containerStyles, modalOverflowStyles, modalStyles } from '../assets/styles/global';
+import { createTrainingHistory, editTrainingHistory, deleteTrainingHistory } from '../controllers/TrainingHistoryController';
 import { TrainingHistory } from '../models/TrainingHistory';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -12,6 +12,7 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   session: TrainingHistory | null;
+  testID: string;
 }
 
 var data: any = [];
@@ -41,32 +42,32 @@ export default function TrainingHistoryModal({ visible, onClose, session }: Prop
 
   const submit = async () => {
     const data: TrainingHistory = { id: session?.id, date_beg: dateBeg, date_end: dateEnd } as TrainingHistory;
-    await createTrainingHistory(data);
+    isEdit ? await editTrainingHistory(data) : await createTrainingHistory(data);
     onClose();
   };
 
   const handleDelete = async () => {
     if (session?.id) {
-      await deleteTrainingSession(session.id);
+      await deleteTrainingHistory(session.id);
       onClose();
     }
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide">
+    <Modal visible={visible} transparent animationType="slide" testID="trainingHistoryModal">
       <View style={styles.backdrop}>
         {!isEdit && <View style={styles.modal}>
           <Text style={styles.header}>Novo Histórico</Text>
           <Text>Data de Início: </Text>
-          <TextInputMask type={'datetime'} value={dateBeg} options={{format: 'YYYY-MM-DD'}} onChangeText={setDateBeg} style={styles.input} placeholder="YYYY-MM-DD" />
+          <TextInputMask testID="dateBegInput" type={'datetime'} value={dateBeg} options={{format: 'YYYY-MM-DD'}} onChangeText={setDateBeg} style={styles.input} placeholder="YYYY-MM-DD" />
           <Text>Data de Fim: </Text>
-          <TextInputMask type={'datetime'} value={dateEnd} options={{format: 'YYYY-MM-DD'}} onChangeText={setDateEnd} style={styles.input} placeholder="YYYY-MM-DD" />
+          <TextInputMask testID="dateEndInput" type={'datetime'} value={dateEnd} options={{format: 'YYYY-MM-DD'}} onChangeText={setDateEnd} style={styles.input} placeholder="YYYY-MM-DD" />
           
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.saveButton} onPress={submit}>
+          <View style={styles.row} testID="actionButtons">
+            <TouchableOpacity style={styles.saveButton} onPress={submit} testID="saveButton">
               <Text style={styles.buttonText}>{isEdit ? 'Salvar' : 'Adicionar'}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+            <TouchableOpacity style={styles.cancelButton} onPress={onClose} testID="cancelButton">
               <Text style={styles.buttonText}>Cancelar</Text>
             </TouchableOpacity>
           </View>
@@ -74,10 +75,10 @@ export default function TrainingHistoryModal({ visible, onClose, session }: Prop
         {isEdit && data && <View style={styles.modal}>
           <Text style={styles.header}>Histórico</Text>
           <Text>Data de Início: </Text>
-          <TextInputMask editable={false} type={'datetime'} value={dateBeg} options={{format: 'YYYY-MM-DD'}} onChangeText={setDateBeg} style={styles.input} placeholder="YYYY-MM-DD" />
+          <TextInputMask testID="dateBegInput2" editable={false} type={'datetime'} value={dateBeg} options={{format: 'YYYY-MM-DD'}} onChangeText={setDateBeg} style={styles.input} placeholder="YYYY-MM-DD" />
           <Text>Data de Fim: </Text>
-          <TextInputMask editable={false} type={'datetime'} value={dateEnd} options={{format: 'YYYY-MM-DD'}} onChangeText={setDateEnd} style={styles.input} placeholder="YYYY-MM-DD" />
-          <View>
+          <TextInputMask testID="dateEndInput2" editable={false} type={'datetime'} value={dateEnd} options={{format: 'YYYY-MM-DD'}} onChangeText={setDateEnd} style={styles.input} placeholder="YYYY-MM-DD" />
+          <View style={styles.modalOverflow}>
             <FlatList
                     data={data}
                     keyExtractor={item => String(item.id)}
@@ -90,14 +91,14 @@ export default function TrainingHistoryModal({ visible, onClose, session }: Prop
                     )}
                   />
           </View>
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.saveButton} onPress={submit}>
+          <View style={styles.row} testID="actionButtons2">
+            <TouchableOpacity style={styles.saveButton} onPress={submit} testID="saveButton2">
               <Text style={styles.buttonText}>{isEdit ? 'Salvar' : 'Adicionar'}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+            <TouchableOpacity style={styles.deleteButton} onPress={handleDelete} testID="deleteButton">
               <Text style={styles.buttonText}>Deletar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+            <TouchableOpacity style={styles.cancelButton} onPress={onClose} testID="cancelButton2">
               <Text style={styles.buttonText}>Cancelar</Text>
             </TouchableOpacity>
           </View>
@@ -122,4 +123,5 @@ const styles = StyleSheet.create({
   saveButton: modalStyles.saveButton(),
   deleteButton: { ...modalStyles.saveButton(), backgroundColor: 'red' }, // Estilo para o botão de deletar
   cancelButton: modalStyles.cancelButton(),
+  modalOverflow: modalOverflowStyles(width),
 });

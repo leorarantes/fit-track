@@ -11,6 +11,12 @@ export const containerStyles = function (width: number): any {
   };
 };
 
+export const modalOverflowStyles = function(screenWidth: number) : any{
+  return{
+    height: '60%'
+  }
+}
+
 export const logoStyles = function (width: number): any {
   return {
     width: width * 0.5,

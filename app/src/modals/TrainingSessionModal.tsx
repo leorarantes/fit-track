@@ -24,20 +24,19 @@ export default function TrainingSessionModal({ visible, onClose, session }: Prop
 
 
   useEffect(() => {
-    if (isFocused) {
-      if (session) {
-        setName(session.name);
-        setDate(session.date);
-        setType(session.type || 'hypertrophy');
-        setObs(session.observations || '');
-      } else {
-        setName('');
-        setDate('');
-        setType('hypertrophy');
-        setObs('');
-      }
+    if (!visible) return;
+    if (session) {
+      setName(session.name);
+      setDate(session.date);
+      setType(session.type || 'hypertrophy');
+      setObs(session.observations || '');
+    } else {
+      setName('');
+      setDate('');
+      setType('hypertrophy');
+      setObs('');
     }
-  }, [isFocused]);
+  }, [visible, session]);
 
   const submit = async () => {
     const data: TrainingSession = { id: session?.id, name, date, type, observations: obs } as TrainingSession;
@@ -60,7 +59,7 @@ export default function TrainingSessionModal({ visible, onClose, session }: Prop
           <Text testID="nameLabel">Nome: </Text>
           <TextInput value={name} onChangeText={setName} style={styles.input} testID="nameInput" />
           <Text testID="dateLabel">Data: </Text>
-          <TextInputMask type={'datetime'} options={{format: 'YYYY-MM-DD'}} value={date} onChangeText={setDate} style={styles.input} placeholder="YYYY-MM-DD" testID="dateInput" />
+          <TextInputMask type={'datetime'} options={{ format: 'YYYY-MM-DD' }} value={date} onChangeText={setDate} style={styles.input} placeholder="YYYY-MM-DD" testID="dateInput" />
           <Text testID="typeLabel">Tipo: </Text>
           <View style={styles.row} testID="typeButtons">
             <TouchableOpacity style={[styles.button, type === 'hypertrophy' && styles.selectedButton]} onPress={() => setType('hypertrophy')} testID="typeButton-hypertrophy">

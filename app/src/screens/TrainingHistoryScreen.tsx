@@ -21,7 +21,7 @@ export default function TrainingHistoryScreen() {
   useEffect(() => { load(); }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="trainingHistoryScreen">
       <Image source={logo} style={styles.logo} />
       <Text style={styles.header}>Historico</Text>
       <View style={styles.flexJustifyBetween}>
@@ -31,21 +31,22 @@ export default function TrainingHistoryScreen() {
       
 
       <FlatList
+        testID="historyList"
         data={sessions}
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.card} onPress={() => { setEditing(item); setModalVisibleHistory(true); }}>
+          <TouchableOpacity testID={`trainingHistoryCard-${item.id}`} style={styles.card} onPress={() => { setEditing(item); setModalVisibleHistory(true); }}>
             <Text style={styles.cardSubtitle}>{item.date_beg}</Text>
             <Text style={styles.cardSubtitle}>{item.date_end}</Text>
           </TouchableOpacity>
         )}
       />
 
-      <TouchableOpacity style={styles.addButton} onPress={() => { setEditing(null); setModalVisibleHistory(true); }}>
-        <Text style={styles.plus}>+</Text>
+      <TouchableOpacity testID="plusButton" style={styles.addButton} onPress={() => { setEditing(null); setModalVisibleHistory(true); }}>
+        <Text style={styles.plus} testID="plusText">+</Text>
       </TouchableOpacity>
 
-      <TrainingHistoryModal visible={modalVisibleHistory} onClose={() => { setModalVisibleHistory(false); load(); }} session={editing} />
+      <TrainingHistoryModal testID="trainingHistoryModal" visible={modalVisibleHistory} onClose={() => { setModalVisibleHistory(false); load(); }} session={editing} />
     </View>
   );
 }

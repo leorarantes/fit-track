@@ -11,3 +11,13 @@ export const createTrainingHistory = async (
   return {...session, id};
 };
 
+export const editTrainingHistory = async (
+  session: TrainingHistory,
+): Promise<TrainingHistory> => {
+  await model.updateTrainingHistory(session);
+  return session;
+};
+
+export const deleteTrainingHistory = async (id: number): Promise<void> => {
+  await model.deleteTrainingHistory(id);
+};

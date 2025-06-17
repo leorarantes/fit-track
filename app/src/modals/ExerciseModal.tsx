@@ -20,11 +20,10 @@ export default function ExerciseModal({ visible, onClose, exercise }: Props) {
   const [muscle, setMuscle] = useState<Exercise['muscle_group']>('arms');
   const [obs, setObs] = useState('');
   const [fav, setFav] = useState(false);
-  const isFocused = useIsFocused();
 
 
   useEffect(() => {
-    if (isFocused) {
+      if (!visible) return;
       if (exercise) {
         setName(exercise.name);
         setMuscle(exercise.muscle_group);
@@ -36,8 +35,7 @@ export default function ExerciseModal({ visible, onClose, exercise }: Props) {
         setObs('');
         setFav(false);
       }
-    }
-  }, [isFocused]);
+  }, [exercise, visible]);
 
   const submit = async () => {
     const data: Exercise = { id: exercise?.id, name, muscle_group: muscle, observations: obs, favorite: fav } as Exercise;

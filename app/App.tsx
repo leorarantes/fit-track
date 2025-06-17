@@ -35,10 +35,10 @@ export default function App() {
           headerShown: false, 
         }}
       >
-        <Tab.Screen name="Início" component={DashboardScreen} />
-        <Tab.Screen name="Exercícios" component={ExercisesScreen} />
+        <Tab.Screen name="Inicio" component={DashboardScreen} />
+        <Tab.Screen name="Exercicios" component={ExercisesScreen} />
         <Tab.Screen name="Treinos" component={TrainingSessionScreen} />
-        <Tab.Screen name="Histórico" component={TrainingHistoryScreen} />
+        <Tab.Screen name="Historico" component={TrainingHistoryScreen} />
         
       </Tab.Navigator>
     </NavigationContainer>

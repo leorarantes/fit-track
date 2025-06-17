@@ -38,3 +38,27 @@ export const addTrainingHistory= async (
     throw error;
   }
 };
+
+export const updateTrainingHistory = async (
+  session: TrainingHistory,
+): Promise<void> => {
+  if (!session.id) {
+    throw new Error('ID is required for update');
+  }
+  const db = await getDB();
+  const {id, date_beg, date_end} = session;
+  await db.executeSql(
+    'UPDATE training_history SET date_beg=?, date_end=? WHERE id=?;',
+    [date_beg, date_end || '', id],
+  );
+};
+
+export const deleteTrainingHistory = async (id: number): Promise<void> => {
+  const db = await getDB();
+  try {
+    await db.executeSql('DELETE FROM training_history WHERE id = ?;', [id]);
+  } catch (error) {
+    console.error('Error deleting training history:', error);
+    throw error;
+  }
+};
