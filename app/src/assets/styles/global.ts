@@ -101,9 +101,9 @@ export const smallModalStyles = {
     width: '90%',
   }),
 
-  header: (width: number): any => ({
-    fontSize: screenTitleFontSize(width),
-    marginBottom: 20,
+  header: (): any => ({
+    fontSize: 30,
+    marginBottom: 10,
     color: '#E67E22',
     textAlign: 'center',
     fontWeight: 'bold',
@@ -162,15 +162,14 @@ export const smallModalStyles = {
   }),
 };
 
-export const bigModalStyles = {
-  fullScreenContainer: (width: number): any => ({
+export const fullScreenModalStyles = {
+  fullScreenModal: (): any => ({
     flex: 1,
-    backgroundColor: '#FFF1E6', // Mantém o fundo da tela principal
+    backgroundColor: '#FFF1E6',
     padding: 16,
-    paddingBottom: 80, // Espaço semelhante ao da tela principal
   }),
   header: (width: number): any => ({
-    fontSize: screenTitleFontSize(width), // Usa o mesmo cálculo de tamanho de fonte
+    fontSize: screenTitleFontSize(width),
     fontWeight: 'bold',
     color: '#E67E22',
     textAlign: 'center',
@@ -195,47 +194,16 @@ export const bigModalStyles = {
   }),
   column: (): any => ({
     flexDirection: 'column',
-    justifyContent: 'space-between',
     marginBottom: 10,
-  }),
-  button: (): any => ({
-    flex: 1,
-    padding: 10,
-    marginHorizontal: 5,
-    backgroundColor: '#E67E22',
-    borderRadius: 5,
-    alignItems: 'center',
   }),
   selectedButton: (): any => ({
     backgroundColor: '#D35400',
   }),
   buttonText: (): any => ({
+    fontSize: 16,
     color: 'white',
     fontWeight: 'bold',
-  }),
-  saveButton: (): any => ({
-    flex: 1,
-    padding: 10,
-    marginHorizontal: 5,
-    backgroundColor: '#E67E22',
-    borderRadius: 5,
-    alignItems: 'center',
-  }),
-  deleteButton: (): any => ({
-    flex: 1,
-    padding: 10,
-    marginHorizontal: 5,
-    backgroundColor: 'red',
-    borderRadius: 5,
-    alignItems: 'center',
-  }),
-  cancelButton: (): any => ({
-    flex: 1,
-    padding: 10,
-    marginHorizontal: 5,
-    backgroundColor: '#95A5A6',
-    borderRadius: 5,
-    alignItems: 'center',
+    textAlign: 'center'
   }),
   logo: (width: number): any => ({
     width: width * 0.5,
@@ -243,4 +211,62 @@ export const bigModalStyles = {
     alignSelf: 'center',
     marginBottom: 20,
   }),
+  buttonTextSmall: (): any => ({
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+  }),
+  columnButton: (): any => ({
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#E67E22'
+  }),
+  rowButton: (): any => ({
+    flex: 1,
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    backgroundColor: '#E67E22'
+  }),
+  leftMargin: (): any => ({
+    marginLeft: 5,
+  }),
+  rightMargin: (): any => ({
+    marginRight: 5,
+  }),
+  addButton: (): any => {
+    return {
+      backgroundColor: '#E67E22',
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      elevation: 4,
+      marginTop: 5,
+    };
+  },
+  plus: (): any => {
+    return {
+      color: '#fff',
+      fontSize: 22,
+      fontWeight: 'bold',
+      lineHeight: 25,
+    };
+  },
+  listHeight: (): any => {
+    return {
+      minHeight: 50,
+      maxHeight: 260
+    };
+  }
 };
+
+export const redBackground = (): any => {
+  return { backgroundColor: '#E74C3C' }
+};
+
+export const grayBackground = (): any => {
+  return { backgroundColor: '#BDC3C7' }
+}

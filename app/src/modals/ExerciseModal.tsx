@@ -102,7 +102,7 @@ export default function ExerciseModal({ visible, onClose, exercise }: Props) {
 const styles = StyleSheet.create({
   backdrop: smallModalStyles.backdrop(),
   modal: smallModalStyles.modal(),
-  header: smallModalStyles.header(width),
+  header: smallModalStyles.header(),
   input: smallModalStyles.input(),
   row: smallModalStyles.row(),
   button: smallModalStyles.button(width),
