@@ -24,7 +24,7 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
   const [trainingSessionXExerciseList, setTrainingSessionXExerciseList] = useState<TrainingSessionXExercise[]>([]);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [trainingSessionXExercise, setTrainingSessionXExercise] = useState<TrainingSessionXExercise | null>(null);
-  const [subModalVisible, setSubModalVisible] = useState(false);
+  const [smallModalVisible, setsmallModalVisible] = useState(false);
 
   useEffect(() => {
     if (trainingSession && trainingSession.id) {
@@ -60,7 +60,7 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
       return;
     }
     setTrainingSessionXExercise(null);
-    setSubModalVisible(true);
+    setsmallModalVisible(true);
   };
 
   const selectExercise = (exerciseId?: number) => {
@@ -81,7 +81,7 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
     const selected = trainingSessionXExerciseList.find((tsxe) => tsxe.id === id);
     if (selected) {
       setTrainingSessionXExercise({ ...selected });
-      setSubModalVisible(true);
+      setsmallModalVisible(true);
     }
   }
 
@@ -95,7 +95,7 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
       setTrainingSessionXExercise(null);
       if (trainingSession && trainingSession.id) loadTrainingSessionXExerciseList(trainingSession.id);
     }
-    setSubModalVisible(false);
+    setsmallModalVisible(false);
   };
 
   const saveTrainingSession = async () => {
@@ -108,7 +108,7 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
     setObs('');
     setTrainingSessionXExerciseList([]);
     setTrainingSessionXExercise(null);
-    setSubModalVisible(false);
+    setsmallModalVisible(false);
     onClose();
   };
 
@@ -117,7 +117,7 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
       await TrainingSessionXExerciseController.remove(trainingSessionXExercise?.id);
       setTrainingSessionXExercise(null);
       if (trainingSession && trainingSession.id) loadTrainingSessionXExerciseList(trainingSession.id);
-      setSubModalVisible(false);
+      setsmallModalVisible(false);
     }
   };
 
@@ -147,36 +147,54 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
       <View style={styles.fullScreenContainer}>
         <Text style={styles.header}>{trainingSession ? 'Editar' : 'Novo'} Treino</Text>
         <Text>Nome: </Text>
-        <TextInput value={name} onChangeText={setName} style={styles.input} />
+        <TextInput testID="nameInput" value={name} onChangeText={setName} style={styles.input} />
         <Text>Data: </Text>
-        <TextInput value={date} onChangeText={setDate} style={styles.input} placeholder="YYYY-MM-DD" />
+        <TextInput testID="dateInput" value={date} onChangeText={setDate} style={styles.input} placeholder="YYYY-MM-DD" />
         <Text>Tipo: </Text>
         <View style={styles.row}>
           <TouchableOpacity
             style={[styles.rowButton, type === 'hypertrophy' && styles.selectedButton, styles.rightMargin]}
             onPress={() => setType('hypertrophy')}
+            testID='trainingSessionTypeButton-hypertrophy'
           >
             <Text style={styles.buttonText}>Hipertrofia</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.rowButton, type === 'strength' && styles.selectedButton]}
             onPress={() => setType('strength')}
+            testID='trainingSessionTypeButton-strength'
           >
             <Text style={styles.buttonText}>Força</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.rowButton, type === 'resistance' && styles.selectedButton, styles.leftMargin]}
             onPress={() => setType('resistance')}
+            testID='trainingSessionTypeButton-resistance'
           >
             <Text style={styles.buttonText}>Resistência</Text>
           </TouchableOpacity>
         </View>
-        <TextInput placeholder="Observações" value={obs} onChangeText={setObs} style={[styles.input, { height: 60 }]} multiline />
+        <TextInput
+          placeholder="Observações"
+          value={obs}
+          onChangeText={setObs}
+          style={[styles.input, { height: 60 }]}
+          multiline
+          testID="observationsInput"
+        />
         <View style={styles.row}>
-          <TouchableOpacity style={[styles.rowButton, styles.rightMargin]} onPress={saveTrainingSession}>
+          <TouchableOpacity
+            style={[styles.rowButton, styles.rightMargin]}
+            onPress={saveTrainingSession}
+            testID="saveTrainingSessionButton"
+          >
             <Text style={styles.buttonText}>Salvar Treino</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.rowButton, styles.grayBackground]} onPress={onClose}>
+          <TouchableOpacity
+            style={[styles.rowButton, styles.grayBackground]}
+            onPress={onClose}
+            testID="cancelTrainingSessionButton"
+          >
             <Text style={styles.buttonText}>Cancelar</Text>
           </TouchableOpacity>
         </View>
@@ -185,14 +203,18 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
             <TouchableOpacity
               style={[styles.columnButton, styles.redBackground, {marginBottom: 10}]}
               onPress={deleteTrainingSession}
-              testID="deleteButton"
+              testID="deleteTrainingSessionButton"
             >
               <Text style={styles.buttonText}>Deletar Treino</Text>
             </TouchableOpacity>
             <View style={styles.row}>
               <Text style={[styles.title, { marginBottom: 0 }]}>Exercícios</Text>
-              <TouchableOpacity style={[styles.addButton]} onPress={addTrainingSessionXExercise} testID="addExerciseButton">
-                <Text style={styles.plus} testID="plusText">+</Text>
+              <TouchableOpacity
+                style={[styles.addButton]}
+                onPress={addTrainingSessionXExercise}
+                testID="addTrainingSessionXExerciseButton"
+              >
+                <Text style={styles.plus}>+</Text>
               </TouchableOpacity>
             </View>
             <FlatList
@@ -207,39 +229,44 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
                   testID={`trainingSessionXExerciseCard-${item.id}`}
                 >
                   <Text style={styles.cardTitle}>{getExerciseNameById(item.exercise_id)}</Text>
-                  <Text style={styles.cardSubtitle}>
-                    {getExerciseMuscleGroupById(item.exercise_id)}
-                  </Text>
+                  <Text style={styles.cardSubtitle}>{getExerciseMuscleGroupById(item.exercise_id)}</Text>
                 </TouchableOpacity>
               )}
             />
-            {subModalVisible &&
-              <Modal visible={subModalVisible} transparent animationType="slide" testID="subModal">
+            {smallModalVisible &&
+              <Modal visible={smallModalVisible} transparent animationType="slide" testID="smallModal">
                 <View style={styles.backdrop}>
                   <View style={styles.smallModal}>
                     {trainingSessionXExercise ? (
                       <View>
-                        <Text style={styles.title} testID="modalHeader">{getExerciseNameById(trainingSessionXExercise.exercise_id)}</Text>
+                        <Text style={styles.title}>{getExerciseNameById(trainingSessionXExercise.exercise_id)}</Text>
                         <TextInput
                           placeholder="Peso"
                           value={String(trainingSessionXExercise?.weight || '')}
                           onChangeText={(text) => setTrainingSessionXExercise((prev) => ({ ...prev!, weight: Number(text) }))}
                           style={styles.input}
+                          testID="weightInput"
                         />
                         <TextInput
                           placeholder="Sets"
                           value={String(trainingSessionXExercise?.sets || '')}
                           onChangeText={(text) => setTrainingSessionXExercise((prev) => ({ ...prev!, sets: Number(text) }))}
                           style={styles.input}
+                          testID="setsInput"
                         />
                         <TextInput
                           placeholder="Reps"
                           value={String(trainingSessionXExercise?.reps || '')}
                           onChangeText={(text) => setTrainingSessionXExercise((prev) => ({ ...prev!, reps: Number(text) }))}
                           style={styles.input}
+                          testID="repsInput"
                         />
                         <View style={styles.row}>
-                          <TouchableOpacity style={[styles.rowButton, styles.rightMargin]} onPress={saveTrainingSessionXExercise} testID="saveTrainingSessionXExerciseButton">
+                          <TouchableOpacity
+                            style={[styles.rowButton, styles.rightMargin]}
+                            onPress={saveTrainingSessionXExercise}
+                            testID="saveTrainingSessionXExerciseButton"
+                          >
                             <Text style={styles.buttonTextSmall}>Salvar</Text>
                           </TouchableOpacity>
                           {trainingSessionXExercise.id &&
@@ -254,7 +281,7 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
                         </View>
                       </View>
                     ) : <View>
-                      <Text style={styles.title} testID="modalHeader">Selecionar Exercício</Text>
+                      <Text style={styles.title}>Selecionar Exercício</Text>
                       <FlatList
                         style={styles.listHeight}
                         data={exercises}
@@ -265,10 +292,8 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
                             onPress={() => { selectExercise(item.id); }}
                             testID={`exerciseCard-${item.id}`}
                           >
-                            <Text style={styles.cardTitle} testID={`exerciseName-${item.id}`}>{item.name}</Text>
-                            <Text style={styles.cardSubtitle} testID={`exerciseMuscleGroup-${item.muscle_group}`}>
-                              {portuguesMuscleGroup[item.muscle_group]}
-                            </Text>
+                            <Text style={styles.cardTitle}>{item.name}</Text>
+                            <Text style={styles.cardSubtitle}>{portuguesMuscleGroup[item.muscle_group]}</Text>
                           </TouchableOpacity>
                         )}
                         testID="exerciseList"
@@ -280,9 +305,9 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
                         style={[styles.columnButton, styles.grayBackground, {marginTop: (trainingSessionXExercise ? 0 : 20)}]}
                         onPress={() => {
                           setTrainingSessionXExercise(null);
-                          setSubModalVisible(false);
+                          setsmallModalVisible(false);
                         }}
-                        testID="cancelButton"
+                        testID="cancelTrainingSessionXExerciseButton"
                       >
                         <Text style={styles.buttonTextSmall}>Cancelar</Text>
                       </TouchableOpacity>
