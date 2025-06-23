@@ -8,12 +8,23 @@ describe('TrainingSessions', () => {
   });
 
   it('should navigate to Training Sessions tab', async () => {
+    await element(by.id('navigateToRegisterButton')).tap();
+    await element(by.id('nameInput')).typeText('Test User');
+    await element(by.id('emailInput')).typeText('test@example.com');
+    await element(by.id('passwordInput')).typeText('password123');
+    await element(by.id('registerButton')).tap();
+    await element(by.id('emailInput')).typeText('test@example.com');
+    await element(by.id('passwordInput')).typeText('password123');
+    await element(by.id('loginButton')).tap();
     await element(by.label('Treinos')).tap();
     await expect(element(by.id('trainingSessionScreen'))).toBeVisible();
     await expect(element(by.id('trainingSessionList'))).toBeVisible();
   });
 
   it('should create a training session, try to create a training session exercise without creating an exercise and fail', async () => {
+    await element(by.id('emailInput')).typeText('test@example.com');
+    await element(by.id('passwordInput')).typeText('password123');
+    await element(by.id('loginButton')).tap();
     await element(by.label('Treinos')).tap();
     await expect(element(by.id('trainingSessionScreen'))).toBeVisible();
     await expect(element(by.id('trainingSessionList'))).toBeVisible();
@@ -32,6 +43,9 @@ describe('TrainingSessions', () => {
   });
 
   it('should create a training session, edit it, create a training session exercise, edit it and delete both', async () => {
+    await element(by.id('emailInput')).typeText('test@example.com');
+    await element(by.id('passwordInput')).typeText('password123');
+    await element(by.id('loginButton')).tap();
     await element(by.label('Exercicios')).tap();
     await expect(element(by.id('exercisesScreen'))).toBeVisible();
     await expect(element(by.id('exerciseList'))).toBeVisible();

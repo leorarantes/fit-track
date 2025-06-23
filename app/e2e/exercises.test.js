@@ -8,12 +8,23 @@ describe('Exercises', () => {
   });
   
   it('should navigate to Exercises tab', async () => {
+    await element(by.id('navigateToRegisterButton')).tap();
+    await element(by.id('nameInput')).typeText('Test User');
+    await element(by.id('emailInput')).typeText('test@example.com');
+    await element(by.id('passwordInput')).typeText('password123');
+    await element(by.id('registerButton')).tap();
+    await element(by.id('emailInput')).typeText('test@example.com');
+    await element(by.id('passwordInput')).typeText('password123');
+    await element(by.id('loginButton')).tap();
     await element(by.label('Exercicios')).tap();
     await expect(element(by.id('exercisesScreen'))).toBeVisible();
     await expect(element(by.id('exerciseList'))).toBeVisible();
   });
 
   it('should create an exercise, edit it and delete it', async () => {
+    await element(by.id('emailInput')).typeText('test@example.com');
+    await element(by.id('passwordInput')).typeText('password123');
+    await element(by.id('loginButton')).tap();
     await element(by.label('Exercicios')).tap();
     await expect(element(by.id('exercisesScreen'))).toBeVisible();
     await expect(element(by.id('exerciseList'))).toBeVisible();

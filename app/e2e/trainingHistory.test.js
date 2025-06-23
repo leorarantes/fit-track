@@ -8,12 +8,23 @@ describe('TrainingHistory', () => {
   });
 
   it('should navigate to History tab', async () => {
+    await element(by.id('navigateToRegisterButton')).tap();
+    await element(by.id('nameInput')).typeText('Test User');
+    await element(by.id('emailInput')).typeText('test@example.com');
+    await element(by.id('passwordInput')).typeText('password123');
+    await element(by.id('registerButton')).tap();
+    await element(by.id('emailInput')).typeText('test@example.com');
+    await element(by.id('passwordInput')).typeText('password123');
+    await element(by.id('loginButton')).tap();
     await element(by.label('Historico')).tap();
     await expect(element(by.id('trainingHistoryScreen'))).toBeVisible();
     await expect(element(by.id('historyList'))).toBeVisible();
   });
 
   it('should create a history, edit it and delete it', async () => {
+    await element(by.id('emailInput')).typeText('test@example.com');
+    await element(by.id('passwordInput')).typeText('password123');
+    await element(by.id('loginButton')).tap();
     await element(by.label('Historico')).tap();
     await expect(element(by.id('trainingHistoryScreen'))).toBeVisible();
     await expect(element(by.id('historyList'))).toBeVisible();
