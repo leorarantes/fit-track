@@ -59,6 +59,13 @@ export const getDB = async (): Promise<SQLiteDatabase> => {
           password TEXT NOT NULL
         );`,
       );
+      await dbInstance.executeSql(
+        `CREATE TABLE IF NOT EXISTS reminder (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          date DATE NOT NULL,
+          hour DATE NOT NULL,
+          observations TEXT `
+      );
       return dbInstance;
   } catch(error) {
     console.error('Error opening database:', error);

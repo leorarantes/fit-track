@@ -3,13 +3,17 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, Dimensions }
 import { fetchExercises } from '../controllers/ExerciseController';
 import ExerciseModal from '../modals/ExerciseModal';
 import { Exercise, portuguesMuscleGroup } from '../models/Exercise';
-import { addButtonStyles, cardStyles, cardSubtitleStyles, cardTitleStyles, containerStyles, headerStyles, logoStyles, plusStyles, screenTitleFontSize } from '../assets/styles/global';
+import { addButtonStyles, cardStyles, cardSubtitleStyles, cardTitleStyles, containerStyles, flexJustifyBetweenStyles, headerStyles, logoStyles, plusStyles, screenTitleFontSize } from '../assets/styles/global';
+import ReminderModal from '../modals/ReminderModal';
+import Icon from 'react-native-vector-icons/FontAwesome';
 const { width, height } = Dimensions.get('window');
 const logo = require('../assets/img/logo.png');
+
 
 export default function ExercisesScreen() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalReminder, setModalReminder] = useState(false);
   const [editing, setEditing] = useState<Exercise | null>(null);
 
   const load = async () => {
@@ -21,7 +25,10 @@ export default function ExercisesScreen() {
 
   return (
     <View style={styles.container} testID="exercisesScreen">
-      <Image source={logo} style={styles.logo} testID="logoImage" />
+      <View style={styles.flexJustifyBetween}>
+        <Image source={logo} style={styles.logo} />
+        <Icon name="bell" size={30} color="#E67E22" onPress={() => { setEditing(null); setModalReminder(true); }} />
+      </View>      
       <Text style={styles.header} testID="headerText">Exercícios</Text>
 
       <FlatList
@@ -56,6 +63,9 @@ export default function ExercisesScreen() {
         exercise={editing}
         testID="exerciseModal"
       />
+
+      <ReminderModal visible={modalReminder} onClose={() => { setModalReminder(false); load(); }}
+        testID="reminderModal"></ReminderModal>
     </View>
   );
 }
@@ -68,5 +78,6 @@ const styles = StyleSheet.create({
   cardTitle: cardTitleStyles(width),
   cardSubtitle: cardSubtitleStyles(width),
   addButton: addButtonStyles(width),
-  plus: plusStyles(width)
+  plus: plusStyles(width),
+  flexJustifyBetween: flexJustifyBetweenStyles(width),
 });

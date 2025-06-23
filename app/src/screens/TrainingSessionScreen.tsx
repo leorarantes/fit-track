@@ -3,13 +3,17 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, Dimensions }
 import { fetchTrainingSessions } from '../controllers/TrainingSessionController';
 import TrainingSessionModal from '../modals/TrainingSessionModal';
 import { TrainingSession } from '../models/TrainingSession';
-import { addButtonStyles, cardStyles, cardSubtitleStyles, cardTitleStyles, containerStyles, headerStyles, logoStyles, plusStyles, screenTitleFontSize } from '../assets/styles/global';
+import { addButtonStyles, cardStyles, cardSubtitleStyles, cardTitleStyles, containerStyles, flexJustifyBetweenStyles, headerStyles, logoStyles, plusStyles, screenTitleFontSize } from '../assets/styles/global';
+import ReminderModal from '../modals/ReminderModal';
 const { width, height } = Dimensions.get('window');
 const logo = require('../assets/img/logo.png');
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 export default function TrainingSessionScreen() {
   const [sessions, setSessions] = useState<TrainingSession[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalReminder, setModalReminder] = useState(false);
   const [editing, setEditing] = useState<TrainingSession | null>(null);
 
   const load = async () => {
@@ -21,7 +25,11 @@ export default function TrainingSessionScreen() {
 
   return (
     <View style={styles.container} testID="trainingSessionScreen">
-      <Image source={logo} style={styles.logo} testID="logoImage" />
+      <View style={styles.flexJustifyBetween}>
+        <Image source={logo} style={styles.logo} />
+        <Icon name="bell" size={30} color="#E67E22" onPress={() => { setEditing(null); setModalReminder(true); }} />
+      </View>
+
       <Text style={styles.header} testID="headerText">Treinos</Text>
 
       <FlatList
@@ -51,6 +59,9 @@ export default function TrainingSessionScreen() {
         trainingSession={editing}
         testID="trainingSessionModal"
       />
+
+      <ReminderModal visible={modalReminder} onClose={() => { setModalReminder(false); load(); }}
+        testID="reminderModal"></ReminderModal>
     </View>
   );
 }
@@ -63,5 +74,6 @@ const styles = StyleSheet.create({
   cardTitle: cardTitleStyles(width),
   cardSubtitle: cardSubtitleStyles(width),
   addButton: addButtonStyles(width),
-  plus: plusStyles(width)
+  plus: plusStyles(width),
+  flexJustifyBetween: flexJustifyBetweenStyles(width)
 });

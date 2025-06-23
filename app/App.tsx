@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ExercisesScreen from './src/screens/ExercisesScreen';
@@ -7,12 +7,33 @@ import TrainingHistoryScreen from './src/screens/TrainingHistoryScreen';
 import DashboardScreen from './src/screens/DashboardScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
+import { cardSubtitleStyles, cardTitleStyles } from './src/assets/styles/global';
+import { Dimensions, StyleSheet } from 'react-native';
+const { width, height } = Dimensions.get('window');
+import PushNotification, { Importance } from 'react-native-push-notification';
+import { Platform } from 'react-native';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+
 
 const Tab = createBottomTabNavigator();
+
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false); // Controle para alternar entre login e registro
+
+  useEffect(() => {
+    
+
+    async function askPermission() {
+      if (Platform.OS === 'android' && Platform.Version >= 33) {
+        // @ts-ignore
+        const res = await request('android.permission.POST_NOTIFICATIONS');
+        console.log('Permissão notificação:', res);
+      }
+    }
+    askPermission();
+  }, []);
 
   return (
     <NavigationContainer>

@@ -3,14 +3,17 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, Dimensions }
 import { fetchTrainingHistory } from '../controllers/TrainingHistoryController';
 import TrainingHistoryModal from '../modals/TrainingHistoryModal';
 import { TrainingSession } from '../models/TrainingSession';
-import { addButtonStyles, cardStyles, cardSubtitleStyles, cardTitleStyles, containerStyles, flexJustifyBetweenStyles, headerStyles, leadTableStyles, logoStyles, plusStyles, screenTitleFontSize } from '../assets/styles/global';
+import { addButtonStyles, cardStyles, cardSubtitleStyles, cardTitleStyles, containerStyles, flexJustifyBetweenStyles, headerStyles, iconStyles, leadTableStyles, logoStyles, plusStyles, screenTitleFontSize } from '../assets/styles/global';
 import { TrainingHistory } from '../models/TrainingHistory';
 const { width, height } = Dimensions.get('window');
 const logo = require('../assets/img/logo.png');
+import Icon from 'react-native-vector-icons/FontAwesome';
+import ReminderModal from '../modals/ReminderModal';
 
 export default function TrainingHistoryScreen() {
   const [sessions, setSessions] = useState<TrainingHistory[]>([]);
   const [modalVisibleHistory, setModalVisibleHistory] = useState(false);
+  const [modalReminder, setModalReminder] = useState(false);
   const [editing, setEditing] = useState<TrainingHistory | null>(null);
 
   const load = async () => {
@@ -22,13 +25,16 @@ export default function TrainingHistoryScreen() {
 
   return (
     <View style={styles.container} testID="trainingHistoryScreen">
-      <Image source={logo} style={styles.logo} />
+      <View style={styles.flexJustifyBetween}>
+        <Image source={logo} style={styles.logo} />
+        <Icon name="bell" size={30} color="#E67E22" onPress={() => { setEditing(null); setModalReminder(true); }} />
+      </View>
       <Text style={styles.header}>Historico</Text>
       <View style={styles.flexJustifyBetween}>
         <Text style={styles.leadTable}>Data de Início</Text>
         <Text style={styles.leadTable}>Data de Fim</Text>
       </View>
-      
+
 
       <FlatList
         testID="historyList"
@@ -47,6 +53,9 @@ export default function TrainingHistoryScreen() {
       </TouchableOpacity>
 
       <TrainingHistoryModal testID="trainingHistoryModal" visible={modalVisibleHistory} onClose={() => { setModalVisibleHistory(false); load(); }} session={editing} />
+      
+      <ReminderModal visible={modalReminder} onClose={() => { setModalReminder(false); load(); }}
+        testID="reminderModal"></ReminderModal>
     </View>
   );
 }
@@ -61,5 +70,6 @@ const styles = StyleSheet.create({
   addButton: addButtonStyles(width),
   plus: plusStyles(width),
   leadTable: leadTableStyles(width),
-  flexJustifyBetween: flexJustifyBetweenStyles(width)
+  flexJustifyBetween: flexJustifyBetweenStyles(width),
+  icon: iconStyles()
 });

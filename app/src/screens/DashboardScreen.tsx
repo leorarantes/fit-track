@@ -3,11 +3,13 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, Dimensions }
 import { fetchExercises } from '../controllers/ExerciseController';
 import ExerciseModal from '../modals/ExerciseModal';
 import { Exercise, portuguesMuscleGroup } from '../models/Exercise';
-import { addButtonStyles, cardStyles, cardSubtitleStyles, cardTitleStyles, containerStyles, headerStyles, leadChartStyles, logoStyles, plusStyles, screenTitleFontSize } from '../assets/styles/global';
+import { addButtonStyles, cardStyles, cardSubtitleStyles, cardTitleStyles, containerStyles, flexJustifyBetweenStyles, headerStyles, leadChartStyles, logoStyles, plusStyles, screenTitleFontSize } from '../assets/styles/global';
 import { LineChart, PieChart } from 'react-native-chart-kit';
 import { TrainingSession } from '../models/TrainingSession';
 import { fetchTrainingSessions } from '../controllers/TrainingSessionController';
 import { useIsFocused } from '@react-navigation/native';
+import ReminderModal from '../modals/ReminderModal';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const { width, height } = Dimensions.get('window');
 const logo = require('../assets/img/logo.png');
@@ -17,6 +19,7 @@ export default function DashboardScreen() {
   const [sessions, setSessions] = useState<TrainingSession[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [editing, setEditing] = useState<Exercise | null>(null);
+  const [modalReminder, setModalReminder] = useState(false);
   const [monthsCount, setMonthsCount] = useState(Array(12).fill(0));
   const [muscle_group, setMuscleGroup] = useState(Array(6).fill(0));
   const isFocused = useIsFocused();
@@ -37,7 +40,7 @@ export default function DashboardScreen() {
     const updateMuscleGroup = Array(6).fill(0);
     dataEx.forEach(item => {
       const itemType = item.muscle_group
-      switch(itemType){
+      switch (itemType) {
         case 'arms':
           updateMuscleGroup[0]++;
           break;
@@ -62,9 +65,9 @@ export default function DashboardScreen() {
     setMonthsCount(updatedMonthsCount);
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     if (isFocused) {
-      load(); 
+      load();
     }
   }, [isFocused]);
 
@@ -114,13 +117,16 @@ export default function DashboardScreen() {
     },
   ];
 
-  const handleDataCharts = async() => {
-    
+  const handleDataCharts = async () => {
+
   }
 
   return (
     <View style={styles.container}>
-      <Image source={logo} style={styles.logo} />
+      <View style={styles.flexJustifyBetween}>
+        <Image source={logo} style={styles.logo} />
+        <Icon name="bell" size={30} color="#E67E22" onPress={() => { setEditing(null); setModalReminder(true); }} />
+      </View>      
       <Text style={styles.header}>Início</Text>
 
       <View >
@@ -151,16 +157,15 @@ export default function DashboardScreen() {
             marginVertical: 0,
             borderRadius: 10,
           }}
-          
+
         />
       </View>
 
       <View>
-        <Text></Text>
         <Text style={styles.leadChart}>Seus exercícios</Text>
         <PieChart
           data={data}
-          width={screenWidth-32}
+          width={screenWidth - 32}
           height={220}
           chartConfig={{
             backgroundColor: '#e26a00',
@@ -181,6 +186,9 @@ export default function DashboardScreen() {
           paddingLeft={"15"}
         />
       </View>
+
+      <ReminderModal visible={modalReminder} onClose={() => { setModalReminder(false); load(); }}
+        testID="reminderModal"></ReminderModal>
     </View>
   );
 }
@@ -195,4 +203,5 @@ const styles = StyleSheet.create({
   addButton: addButtonStyles(width),
   plus: plusStyles(width),
   leadChart: leadChartStyles(width),
+  flexJustifyBetween: flexJustifyBetweenStyles(width),
 });
