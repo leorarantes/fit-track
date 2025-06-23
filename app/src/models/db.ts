@@ -44,6 +44,13 @@ export const getDB = async (): Promise<SQLiteDatabase> => {
           FOREIGN KEY (training_session_id) REFERENCES training_session(id)
         );`
       );
+      await dbInstance.executeSql(
+        `CREATE TABLE IF NOT EXISTS training_history (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          date_beg DATE NOT NULL,
+          date_end DATE NOT NULL
+        );`,
+      );
       return dbInstance;
   } catch(error) {
     console.error('Error opening database:', error);

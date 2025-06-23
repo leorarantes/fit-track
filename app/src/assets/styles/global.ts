@@ -11,6 +11,12 @@ export const containerStyles = function (width: number): any {
   };
 };
 
+export const modalOverflowStyles = function(screenWidth: number) : any{
+  return{
+    height: '60%'
+  }
+}
+
 export const logoStyles = function (width: number): any {
   return {
     width: width * 0.5,
@@ -83,6 +89,33 @@ export const plusStyles = function (width: number): any {
     color: '#fff',
     fontSize: 32,
     lineHeight: 36,
+  };
+}
+
+export const leadTableStyles = function (width: number): any{
+  return {
+    color: '#E67E22',
+    fontSize: 18,
+    fontWeight: 'bold'
+  };
+}
+
+export const leadChartStyles = function (width: number): any{
+  return {
+    color: '#E67E22',
+    fontSize: 14,
+    fontWeight: 'thin',
+    fontStyle: 'italic',
+    textAlign: 'center',
+  };
+}
+
+export const flexJustifyBetweenStyles = function (width:number): any{
+  return {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    padding: 10
   };
 }
 

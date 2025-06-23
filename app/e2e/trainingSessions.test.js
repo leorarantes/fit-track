@@ -32,6 +32,9 @@ describe('TrainingSessions', () => {
   });
 
   it('should create a training session, edit it, create a training session exercise, edit it and delete both', async () => {
+    await element(by.label('Exercicios')).tap();
+    await expect(element(by.id('exercisesScreen'))).toBeVisible();
+    await expect(element(by.id('exerciseList'))).toBeVisible();
     await element(by.id('plusButton')).tap();
     await element(by.id('nameInput')).replaceText('Novo Exercício');
     await element(by.id('muscleButton-arms')).tap();

@@ -28,13 +28,10 @@ export default function TrainingSessionScreen() {
         data={sessions}
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => { setEditing(item); setModalVisible(true); }}
-            testID={`trainingSessionCard-${item.id}`}
-          >
-            <Text style={styles.cardTitle} testID={`trainingSessionName-${item.id}`}>{item.name}</Text>
-            <Text style={styles.cardSubtitle} testID={`trainingSessionDate-${item.id}`}>{item.date}</Text>
+          <TouchableOpacity testID={`trainingSessionCard-${item.id}`} style={styles.card} onPress={() => { setEditing(item); setModalVisible(true); }}>
+            <Text style={styles.cardTitle}>{item.name}</Text>
+            <Text style={styles.cardSubtitle}>{item.type}</Text>
+            <Text style={styles.cardSubtitle}>{item.date}</Text>
           </TouchableOpacity>
         )}
         testID="trainingSessionList"
