@@ -51,6 +51,14 @@ export const getDB = async (): Promise<SQLiteDatabase> => {
           date_end DATE NOT NULL
         );`,
       );
+      await dbInstance.executeSql(
+        `CREATE TABLE IF NOT EXISTS user (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          email TEXT NOT NULL UNIQUE,
+          password TEXT NOT NULL
+        );`,
+      );
       return dbInstance;
   } catch(error) {
     console.error('Error opening database:', error);
