@@ -4,8 +4,7 @@ import CheckBox from '@react-native-community/checkbox';
 import { createExercise, editExercise } from '../controllers/ExerciseController';
 import { deleteExercise, Exercise } from '../models/Exercise';
 const { width, height } = Dimensions.get('window');
-import { modalStyles } from '../assets/styles/global';
-import { useIsFocused } from '@react-navigation/native';
+import { smallModalStyles } from '../assets/styles/global';
 
 interface Props {
   visible: boolean;
@@ -103,15 +102,15 @@ export default function ExerciseModal({ visible, onClose, exercise }: Props) {
 }
 
 const styles = StyleSheet.create({
-  backdrop: modalStyles.backdrop(),
-  modal: modalStyles.modal(),
-  header: modalStyles.header(width),
-  input: modalStyles.input(),
-  row: modalStyles.row(),
-  button: modalStyles.button(width),
-  selectedButton: modalStyles.selectedButton(),
-  buttonText: modalStyles.buttonText(),
-  saveButton: modalStyles.saveButton(),
-  deleteButton: { ...modalStyles.saveButton(), backgroundColor: 'red' },
-  cancelButton: modalStyles.cancelButton(),
+  backdrop: smallModalStyles.backdrop(),
+  modal: smallModalStyles.modal(),
+  header: smallModalStyles.header(),
+  input: smallModalStyles.input(),
+  row: smallModalStyles.row(),
+  button: smallModalStyles.button(width),
+  selectedButton: smallModalStyles.selectedButton(),
+  buttonText: smallModalStyles.buttonText(),
+  saveButton: smallModalStyles.saveButton(),
+  deleteButton: { ...smallModalStyles.saveButton(), backgroundColor: 'red' },
+  cancelButton: smallModalStyles.cancelButton(),
 });

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, FlatList } from 'react-native';
-import { editTrainingSession } from '../controllers/TrainingSessionController';
-import { deleteTrainingSession, getAllTrainingSessionsDateFilter } from '../models/TrainingSession';
+import { Modal, View, Text, StyleSheet, TouchableOpacity, Dimensions, FlatList } from 'react-native';
+import { getAllTrainingSessionsDateFilter } from '../models/TrainingSession';
 const { width, height } = Dimensions.get('window');
-import { cardStyles, cardSubtitleStyles, cardTitleStyles, containerStyles, modalOverflowStyles, modalStyles } from '../assets/styles/global';
+import { cardStyles, cardSubtitleStyles, cardTitleStyles, containerStyles, modalOverflowStyles, smallModalStyles } from '../assets/styles/global';
 import { createTrainingHistory, editTrainingHistory, deleteTrainingHistory } from '../controllers/TrainingHistoryController';
 import { TrainingHistory } from '../models/TrainingHistory';
 import { TextInputMask } from 'react-native-masked-text';
@@ -112,16 +111,16 @@ const styles = StyleSheet.create({
   card: cardStyles(width),
   cardTitle: cardTitleStyles(width),
   cardSubtitle: cardSubtitleStyles(width),
-  backdrop: modalStyles.backdrop(),
-  modal: modalStyles.modal(),
-  header: modalStyles.header(width),
-  input: modalStyles.input(),
-  row: modalStyles.row(),
-  button: modalStyles.button(width),
-  selectedButton: modalStyles.selectedButton(),
-  buttonText: modalStyles.buttonText(),
-  saveButton: modalStyles.saveButton(),
-  deleteButton: { ...modalStyles.saveButton(), backgroundColor: 'red' }, // Estilo para o botão de deletar
-  cancelButton: modalStyles.cancelButton(),
+  backdrop: smallModalStyles.backdrop(),
+  modal: smallModalStyles.modal(),
+  header: smallModalStyles.header(),
+  input: smallModalStyles.input(),
+  row: smallModalStyles.row(),
+  button: smallModalStyles.button(width),
+  selectedButton: smallModalStyles.selectedButton(),
+  buttonText: smallModalStyles.buttonText(),
+  saveButton: smallModalStyles.saveButton(),
+  deleteButton: { ...smallModalStyles.saveButton(), backgroundColor: 'red' }, // Estilo para o botão de deletar
+  cancelButton: smallModalStyles.cancelButton(),
   modalOverflow: modalOverflowStyles(width),
 });

@@ -48,7 +48,7 @@ export default function TrainingSessionScreen() {
       <TrainingSessionModal
         visible={modalVisible}
         onClose={() => { setModalVisible(false); load(); }}
-        session={editing}
+        trainingSession={editing}
         testID="trainingSessionModal"
       />
     </View>

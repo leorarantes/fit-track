@@ -119,7 +119,7 @@ export const flexJustifyBetweenStyles = function (width:number): any{
   };
 }
 
-export const modalStyles = {
+export const smallModalStyles = {
   backdrop: (): any => ({
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -134,9 +134,9 @@ export const modalStyles = {
     width: '90%',
   }),
 
-  header: (width: number): any => ({
-    fontSize: screenTitleFontSize(width),
-    marginBottom: 20,
+  header: (): any => ({
+    fontSize: 30,
+    marginBottom: 10,
     color: '#E67E22',
     textAlign: 'center',
     fontWeight: 'bold',
@@ -194,3 +194,112 @@ export const modalStyles = {
     alignItems: 'center',
   }),
 };
+
+export const fullScreenModalStyles = {
+  fullScreenModal: (): any => ({
+    flex: 1,
+    backgroundColor: '#FFF1E6',
+    padding: 16,
+  }),
+  header: (width: number): any => ({
+    fontSize: screenTitleFontSize(width),
+    fontWeight: 'bold',
+    color: '#E67E22',
+    textAlign: 'center',
+    backgroundColor: '#fff',
+    padding: 10,
+    borderWidth: 2,
+    borderColor: '#E67E22',
+    borderRadius: 8,
+    marginBottom: 16,
+  }),
+  input: (): any => ({
+    width: '100%',
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 5,
+  }),
+  row: (): any => ({
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  }),
+  column: (): any => ({
+    flexDirection: 'column',
+    marginBottom: 10,
+  }),
+  selectedButton: (): any => ({
+    backgroundColor: '#D35400',
+  }),
+  buttonText: (): any => ({
+    fontSize: 16,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  }),
+  logo: (width: number): any => ({
+    width: width * 0.5,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    marginBottom: 20,
+  }),
+  buttonTextSmall: (): any => ({
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+  }),
+  columnButton: (): any => ({
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#E67E22'
+  }),
+  rowButton: (): any => ({
+    flex: 1,
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    backgroundColor: '#E67E22'
+  }),
+  leftMargin: (): any => ({
+    marginLeft: 5,
+  }),
+  rightMargin: (): any => ({
+    marginRight: 5,
+  }),
+  addButton: (): any => {
+    return {
+      backgroundColor: '#E67E22',
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      elevation: 4,
+      marginTop: 5,
+    };
+  },
+  plus: (): any => {
+    return {
+      color: '#fff',
+      fontSize: 22,
+      fontWeight: 'bold',
+      lineHeight: 25,
+    };
+  },
+  listHeight: (): any => {
+    return {
+      minHeight: 50,
+      maxHeight: 260
+    };
+  }
+};
+
+export const redBackground = (): any => {
+  return { backgroundColor: '#E74C3C' }
+};
+
+export const grayBackground = (): any => {
+  return { backgroundColor: '#BDC3C7' }
+}

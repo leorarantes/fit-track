@@ -33,6 +33,18 @@ export const getDB = async (): Promise<SQLiteDatabase> => {
         );`,
       );
       await dbInstance.executeSql(
+        `CREATE TABLE IF NOT EXISTS training_session_x_exercise (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          exercise_id INTEGER NOT NULL,
+          training_session_id INTEGER NOT NULL,
+          weight INTEGER NOT NULL,
+          sets INTEGER NOT NULL,
+          reps INTEGER NOT NULL,
+          FOREIGN KEY (exercise_id) REFERENCES exercise(id),
+          FOREIGN KEY (training_session_id) REFERENCES training_session(id)
+        );`
+      );
+      await dbInstance.executeSql(
         `CREATE TABLE IF NOT EXISTS training_history (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           date_beg DATE NOT NULL,
