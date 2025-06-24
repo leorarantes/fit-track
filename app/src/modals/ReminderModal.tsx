@@ -3,7 +3,7 @@ import { Modal, View, Text, StyleSheet, TouchableOpacity, Dimensions, FlatList, 
 import { getAllTrainingSessionsDateFilter } from '../models/TrainingSession';
 const { width, height } = Dimensions.get('window');
 import { addButtonReminderStyles, addButtonStyles, cardStyles, cardSubtitleStyles, cardTitleStyles, closeButtonReminderStyles, closeStyles, containerStyles, erroStyles, flexJustifyBetweenStyles, fullScreenModalStyles, modalOverflowStyles, plusStyles, smallModalStyles } from '../assets/styles/global';
-import { deleteReminder, getAllReminder, Reminder } from '../models/Reminder';
+import { deleteReminder, getAllReminder, getById, Reminder } from '../models/Reminder';
 import { TextInputMask } from 'react-native-masked-text';
 import { createReminder, editReminder } from '../controllers/ReminderCotroller';
 import PushNotification from 'react-native-push-notification';
@@ -135,7 +135,12 @@ export default function ReminderModal({ visible, onClose, }: Props) {
 
   const submit = async (id?: number) => {
     try {
-      const data: Reminder = {
+      let reminderId: number = id as number;
+      if (isEdit) {
+        if (id)
+          PushNotification.cancelLocalNotification(String(id));
+      }
+      let data: Reminder = {
         id: id,
         date: date,
         hour: hour,
@@ -144,7 +149,16 @@ export default function ReminderModal({ visible, onClose, }: Props) {
 
       console.log('Dados do lembrete:', data);
 
-      isEdit ? await editReminder(data) : await createReminder(data);
+      if (isEdit) {
+        data = { id: reminderId, date, hour, observations } as Reminder;
+        await editReminder(data);
+      } else {
+        data = { date, hour, observations } as Reminder;
+        const newId = await createReminder(data); // Supondo que retorna o id
+        reminderId = newId;
+        data.id = newId;
+      }
+
       resetForm();
 
       const db = await getAllReminder();
@@ -166,12 +180,14 @@ export default function ReminderModal({ visible, onClose, }: Props) {
       }
 
       PushNotification.localNotificationSchedule({
-          channelId: 'test-channel',
-          message: 'Lembrete: ' + observations,
-          date: scheduleDate,
-          allowWhileIdle: true,
-        });
-        console.log('🔧 Notificação agendada para:', scheduleDate.toISOString());
+        channelId: 'test-channel',
+        message: 'Lembrete: ' + observations,
+        date: scheduleDate,
+        allowWhileIdle: true,
+        id: data.id
+      });
+      console.log(data)
+      console.log('🔧 Notificação agendada para:', scheduleDate.toISOString());
 
 
     } catch (error) {
@@ -181,6 +197,7 @@ export default function ReminderModal({ visible, onClose, }: Props) {
   };
 
   const handleDelete = async (id: number) => {
+    PushNotification.cancelLocalNotification(String(id));
     await deleteReminder(id);
     (async () => {
       const db = await getAllReminder();
@@ -285,7 +302,7 @@ export default function ReminderModal({ visible, onClose, }: Props) {
                               validateFields();
                             }}
                           >
-                            <Text style={[styles.saveButton,{backgroundColor: 'yellow', marginBottom: 15, textAlign: 'center'}]}>Editar</Text>
+                            <Text style={[styles.saveButton, { backgroundColor: 'yellow', marginBottom: 15, textAlign: 'center' }]}>Editar</Text>
                           </TouchableOpacity>
 
                           <TouchableOpacity
@@ -293,7 +310,7 @@ export default function ReminderModal({ visible, onClose, }: Props) {
                             style={styles.deleteButton}
                             onPress={() => handleDelete(item.id)}
                           >
-                            <Text style={[styles.buttonText, { textAlign: 'center', padding: 5}]}>Remover</Text>
+                            <Text style={[styles.buttonText, { textAlign: 'center', padding: 5 }]}>Remover</Text>
                           </TouchableOpacity>
                         </View>
                       )}

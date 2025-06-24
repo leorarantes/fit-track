@@ -8,6 +8,21 @@ export interface Reminder {
   observations: string;
 }
 
+export const getById = async (id: number): Promise<Reminder | null> => {
+  const db = await getDB();
+  const [results] = await db.executeSql('SELECT * FROM reminder WHERE id = ?;', [id]);
+  if (results.rows.length > 0) {
+    const row = results.rows.item(0);
+    return {
+      id: row.id,
+      date: row.date,
+      hour: row.hour,
+      observations: row.observations
+    };
+  }
+  return null;
+};
+
 export const getAllReminder = async (): Promise<Reminder[]> => {
   const db = await getDB();
   const [results] = await db.executeSql('SELECT * FROM reminder');

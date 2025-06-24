@@ -6,9 +6,9 @@ export const fetchReminder = async (): Promise<Reminder[]> =>
 
 export const createReminder = async (
   session: Omit<Reminder, 'id'>,
-): Promise<Reminder> => {
+): Promise<number> => {
   const id = await model.addReminder({...session});
-  return {...session, id};
+  return id;
 };
 
 export const editReminder = async (
