@@ -27,7 +27,7 @@ export default function TrainingHistoryScreen() {
     <View style={styles.container} testID="trainingHistoryScreen">
       <View style={styles.flexJustifyBetween}>
         <Image source={logo} style={styles.logo} />
-        <Icon name="bell" size={30} color="#E67E22" onPress={() => { setEditing(null); setModalReminder(true); }} />
+        <Icon testID="iconeSino" name="bell" size={30} color="#E67E22" onPress={() => { setEditing(null); setModalReminder(true); }} />
       </View>
       <Text style={styles.header}>Historico</Text>
       <View style={styles.flexJustifyBetween}>

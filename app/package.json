@@ -9,6 +9,7 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "@notifee/react-native": "^9.1.8",
     "@react-native-community/checkbox": "^0.5.20",
     "@react-native-community/datetimepicker": "^8.4.1",
     "@react-navigation/bottom-tabs": "^7.3.14",

@@ -23,6 +23,7 @@ export default function DashboardScreen() {
   const [monthsCount, setMonthsCount] = useState(Array(12).fill(0));
   const [muscle_group, setMuscleGroup] = useState(Array(6).fill(0));
   const isFocused = useIsFocused();
+  const [weightProgression, setWeightProgression] = useState<number[]>([]);
 
   const load = async () => {
     dataEx = await fetchExercises();
@@ -122,11 +123,11 @@ export default function DashboardScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {overflow:'scroll'}]}>
       <View style={styles.flexJustifyBetween}>
         <Image source={logo} style={styles.logo} />
-        <Icon name="bell" size={30} color="#E67E22" onPress={() => { setEditing(null); setModalReminder(true); }} />
-      </View>      
+        <Icon testID="iconeSino" name="bell" size={30} color="#E67E22" onPress={() => { setEditing(null); setModalReminder(true); }} />
+      </View>
       <Text style={styles.header}>Início</Text>
 
       <View >

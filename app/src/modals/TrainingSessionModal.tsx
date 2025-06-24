@@ -182,31 +182,9 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
           multiline
           testID="observationsInput"
         />
-        <View style={styles.row}>
-          <TouchableOpacity
-            style={[styles.rowButton, styles.rightMargin]}
-            onPress={saveTrainingSession}
-            testID="saveTrainingSessionButton"
-          >
-            <Text style={styles.buttonText}>Salvar Treino</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.rowButton, styles.grayBackground]}
-            onPress={onClose}
-            testID="cancelTrainingSessionButton"
-          >
-            <Text style={styles.buttonText}>Cancelar</Text>
-          </TouchableOpacity>
-        </View>
         {trainingSession &&
           <View style={styles.column}>
-            <TouchableOpacity
-              style={[styles.columnButton, styles.redBackground, {marginBottom: 10}]}
-              onPress={deleteTrainingSession}
-              testID="deleteTrainingSessionButton"
-            >
-              <Text style={styles.buttonText}>Deletar Treino</Text>
-            </TouchableOpacity>
+            
             <View style={styles.row}>
               <Text style={[styles.title, { marginBottom: 0 }]}>Exercícios</Text>
               <TouchableOpacity
@@ -316,8 +294,32 @@ export default function TrainingSessionModal({ visible, onClose, trainingSession
                 </View>
               </Modal>
             }
+            <TouchableOpacity
+              style={[styles.columnButton, styles.redBackground, {marginBottom: 10}]}
+              onPress={deleteTrainingSession}
+              testID="deleteTrainingSessionButton"
+            >
+              <Text style={styles.buttonText}>Deletar Treino</Text>
+            </TouchableOpacity>
           </View>
+          
         }
+        <View style={styles.row}>
+          <TouchableOpacity
+            style={[styles.rowButton, styles.rightMargin]}
+            onPress={saveTrainingSession}
+            testID="saveTrainingSessionButton"
+          >
+            <Text style={styles.buttonText}>Salvar Treino</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.rowButton, styles.grayBackground]}
+            onPress={onClose}
+            testID="cancelTrainingSessionButton"
+          >
+            <Text style={styles.buttonText}>Cancelar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </Modal>
   );

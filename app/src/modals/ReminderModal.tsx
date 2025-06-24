@@ -22,7 +22,7 @@ var data: Reminder[] = [];
 export default function ReminderModal({ visible, onClose, }: Props) {
   const [date, setDate] = useState('');
   const [hour, setHour] = useState('');
-  const [observations, setObservations] = useState('');
+  const [observations, setObservations] = useState<string>('');
   const [data, setData] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState('');
@@ -152,8 +152,8 @@ export default function ReminderModal({ visible, onClose, }: Props) {
 
       const [year, month, day] = date.split('-').map(Number);
       const [hourPart, minutePart] = hour.split(':').map(Number);
-      //const scheduleDate = new Date(year, month - 1, day, hourPart, minutePart);
-      const scheduleDate = new Date(Date.now() + 60 * 1000);
+      const scheduleDate = new Date(year, month - 1, day, hourPart, minutePart);
+      //const scheduleDate = new Date(Date.now() + 60 * 1000);
 
       if (isNaN(scheduleDate.getTime())) {
         console.error('Data inválida');
@@ -165,24 +165,14 @@ export default function ReminderModal({ visible, onClose, }: Props) {
         return;
       }
 
-      PushNotification.createChannel({
-          channelId: "lembrete-channel",
-          channelName: "Canal de Lembretes",
-          importance: 4,
-          vibrate: true,
-        },
-        (created) => {
-          console.log("Canal criado?", created);
-          PushNotification.localNotificationSchedule({
-            channelId: "lembrete-channel",
-            message: "Notificação agendada para 1 minuto!",
-            date: new Date(Date.now() + 60000),
-            allowWhileIdle: true,
-          });
-        }
-      );
+      PushNotification.localNotificationSchedule({
+          channelId: 'test-channel',
+          message: 'Lembrete: ' + observations,
+          date: scheduleDate,
+          allowWhileIdle: true,
+        });
+        console.log('🔧 Notificação agendada para:', scheduleDate.toISOString());
 
-      console.log('Notificação agendada para:', scheduleDate.toLocaleString());
 
     } catch (error) {
       console.error('Erro ao agendar notificação:', error);
@@ -199,24 +189,24 @@ export default function ReminderModal({ visible, onClose, }: Props) {
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide" testID="trainingHistoryModal">
-      <View style={styles.backdrop}>
+    <Modal visible={visible} transparent animationType="slide" >
+      <View style={styles.backdrop} testID="reminderModal">
         <View style={styles.modal}>
           <View style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', flexDirection: 'row' }}>
             <TouchableOpacity
               style={styles.closeButtonReminder}
               onPress={() => { onClose(); setShowForm(false) }}
-              testID="plusButton"
+              testID="closeButtonReminder"
             >
               <Text style={styles.close} testID="plusText">X</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.header}>Lembrete</Text>
+          <Text style={styles.header}>Lembretes</Text>
           <View style={{ width: '100%', flex: 1, justifyContent: 'flex-end', flexDirection: 'row', marginBottom: 60 }}>
             <TouchableOpacity
               style={styles.addButtonReminder}
               onPress={() => { setShowForm(!showForm); setIsEdit(false); resetForm() }}
-              testID="plusButton"
+              testID="plusButtonReminder"
             >
               <Text style={styles.plus} testID="plusText">+</Text>
             </TouchableOpacity>
@@ -227,12 +217,12 @@ export default function ReminderModal({ visible, onClose, }: Props) {
             <View style={styles.flexJustifyBetween}>
               <View>
                 <Text>Data do Lembrete: </Text>
-                <TextInputMask testID="dateBegInput" type={'datetime'} value={date} options={{ format: 'YYYY-MM-DD' }} onChangeText={handleDateChange} style={styles.input} placeholder="YYYY-MM-DD" />
+                <TextInputMask testID="date" type={'datetime'} value={date} options={{ format: 'YYYY-MM-DD' }} onChangeText={handleDateChange} style={styles.input} placeholder="YYYY-MM-DD" />
                 {error ? <Text style={styles.erro}>{error}</Text> : null}
               </View>
               <View>
                 <Text>Horário: </Text>
-                <TextInputMask testID="dateEndInput" type={'datetime'} value={hour} options={{ format: 'HH:mm' }} onChangeText={handleHourChange} style={styles.input} placeholder="HH:mm" />
+                <TextInputMask testID="hour" type={'datetime'} value={hour} options={{ format: 'HH:mm' }} onChangeText={handleHourChange} style={styles.input} placeholder="HH:mm" />
                 {hourError ? <Text style={styles.erro}>{hourError}</Text> : null}
               </View>
             </View>
@@ -260,13 +250,14 @@ export default function ReminderModal({ visible, onClose, }: Props) {
             {/* Lista com rolagem e altura fixa */}
             <View style={{ maxHeight: 350, marginBottom: 12 }}>
               <FlatList
+                testID="reminderList"
                 data={data}
                 keyExtractor={item => String(item.id)}
                 renderItem={({ item }) => {
                   const isExpanded = expandedId === item.id;
 
                   return (
-                    <TouchableOpacity
+                    <TouchableOpacity testID={`reminderCard-${item.id}`}
                       onPress={() =>
                         setExpandedId(isExpanded ? null : item.id)
                       }
@@ -282,6 +273,7 @@ export default function ReminderModal({ visible, onClose, }: Props) {
                       {isExpanded && (
                         <View style={{ minHeight: 100 }}>
                           <TouchableOpacity
+                            testID={`edit-${item.id}`}
                             onPress={() => {
                               setDate(item.date);
                               setHour(item.hour);
@@ -293,14 +285,15 @@ export default function ReminderModal({ visible, onClose, }: Props) {
                               validateFields();
                             }}
                           >
-                            <Text style={styles.saveButton}>Editar</Text>
+                            <Text style={[styles.saveButton,{backgroundColor: 'yellow', marginBottom: 15, textAlign: 'center'}]}>Editar</Text>
                           </TouchableOpacity>
 
                           <TouchableOpacity
+                            testID={`remove-${item.id}`}
                             style={styles.deleteButton}
                             onPress={() => handleDelete(item.id)}
                           >
-                            <Text style={styles.buttonText}>Remover</Text>
+                            <Text style={[styles.buttonText, { textAlign: 'center', padding: 5}]}>Remover</Text>
                           </TouchableOpacity>
                         </View>
                       )}

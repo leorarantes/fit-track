@@ -100,8 +100,8 @@ export const addButtonReminderStyles = function (width: number): any {
 export const closeButtonReminderStyles = function (width: number): any {
   return {
     backgroundColor: 'red',
-    width: 40,
-    height: 40,
+    width: 25,
+    height: 25,
     borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
@@ -120,8 +120,8 @@ export const plusStyles = function (width: number): any {
 export const closeStyles = function (width: number): any {
   return {
     color: '#fff',
-    fontSize: 15,
-    lineHeight: 20,
+    fontSize: 10,
+    lineHeight: 25,
   };
 }
 
