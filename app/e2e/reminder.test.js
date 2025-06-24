@@ -26,7 +26,7 @@ describe('Reminder', () => {
     await element(by.id('iconeSino')).tap();
     await expect(element(by.id('reminderModal'))).toBeVisible();
     await element(by.id('plusButtonReminder')).tap();
-    await element(by.id('date')).replaceText('2025-06-24');
+    await element(by.id('date')).replaceText('2025-06-26');
     await element(by.id('hour')).replaceText('01:15');
     await element(by.id('saveButton2')).tap();
     await expect(element(by.id('reminderCard-1'))).toBeVisible();

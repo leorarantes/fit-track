@@ -126,10 +126,13 @@ export default function ReminderModal({ visible, onClose, }: Props) {
     const minutos = today.getMinutes(); // de 0 a 59
 
     console.log(`Hora atual: ${hora}:${minutos}`);
-
-    if (hora > h || (hora == h && minutos > m)) {
-      setHourError('Hora inválida, horário passou.');
+    console.log(today.getDate() == day && today.getMonth() + 1 == month && today.getFullYear() == year)
+    if (today.getDate() == day && today.getMonth() + 1 == month && today.getFullYear() == year) {
+      if (hora > h || (hora == h && minutos > m)) {
+        setHourError('Hora inválida, horário passou.');
+      }
     }
+
   };
 
 
